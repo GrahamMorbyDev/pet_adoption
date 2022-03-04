@@ -6,9 +6,9 @@
 </a>
 {% endblock %}
 {% block content %}
-</section>
+
 <section id="pet-cards">
-    <form action="#" id="form">
+    <form action="{{ url_for('add_pet') }}" method="POST" id="form">
         <div class="columns">
             <div class="col1">
                 <div class="form-container">
