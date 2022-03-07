@@ -35,13 +35,13 @@ def add_pet():
 
 @app.route('/pet/<id>')
 def pet(id):
-    pet = Pet.query.get(id)
+    pet = Pet.query.get_or_404(id)
     return render_template('pet.html', pet=pet)
 
 
 @app.route('/pet/edit/<id>', methods=['GET', 'POST'])
 def edit_pet(id):
-    pet = Pet.query.get(id)
+    pet = Pet.query.get_or_404(id)
     if request.form:
         pet.name = request.form['name']
         pet.age = request.form['age']
@@ -63,10 +63,15 @@ def edit_pet(id):
 
 @app.route('/pet/delete/<id>')
 def delete_pet(id):
-    pet = Pet.query.get(id)
+    pet = Pet.query.get_or_404(id)
     db.session.delete(pet)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html', msg=error), 404
 
 
 if __name__ == '__main__':
